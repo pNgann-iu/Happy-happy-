@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bánh Gato và Nến Điều Ước Xinh Xắn - HAPPY 22</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7e0e7; /* Nền màu hồng nhạt dễ thương */
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Font đáng yêu */
+            color: #333;
+            overflow: hidden; /* Ngăn cuộn nếu có */
+        }
+
+        
+        .title-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7e0e7;
+            z-index: 200; 
+            opacity: 1;
+            transition: opacity 1.5s ease-out; /* Thời gian mờ dần */
+            visibility: visible;
+        }
+
+        .title-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-out, visibility 0s 1.5s;
+        }
+
+        .title-overlay h1 {
+            font-size: 5em;
+            color: #ff69b4; /* Hồng đậm */
+            text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+            animation: pulse 1s infinite alternate;
+        }
+
+       
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        
+        .cake-container {
+            position: relative;
+            transform: scale(1.6);
+            margin-top: 50px;
+            perspective: 1000px;
+            opacity: 0; /* Ẩn ban đầu */
+            transition: opacity 0.5s ease-in;
+            z-index: 10;
+        }
+
+        .cake-container.visible {
+            opacity: 1; /* Hiện ra */
+        }
+        
+        /* Cấu trúc CSS Bánh Gato/Nến/Bong bóng giữ nguyên */
+
+        .cake {
+            width: 180px;
+            height: 100px;
+            background-color: #f8bbd0;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), inset 0 -5px 0 rgba(0,0,0,0.1);
+            border: 5px solid #ff80ab;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .cake:hover {
+            transform: scale(1.6) rotateY(5deg);
+        }
+
+        .icing {
+            position: absolute;
+            top: -20px;
+            left: -8px;
+            right: -8px;
+            height: 30px;
+            background-color: #fff0f5;
+            border-radius: 50% / 100% 100% 0 0;
+            border-bottom: 7px solid #ff80ab;
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+        }
+
+        .decorations {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 15;
+        }
+        .decoration-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .decoration-dot:nth-child(even) {
+            background-color: #a7d9ff;
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 80px;
+            width: 12px;
+            height: 40px;
+            background: linear-gradient(to top, #ffeb3b, #ffc107);
+            border-radius: 3px;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .candle-1 { left: 40px; }
+        .candle-2 { left: 85px; }
+        .candle-3 { left: 130px; }
+
+        .flame {
+            width: 8px;
+            height: 16px;
+            background: radial-gradient(circle at 50% 50%, #ffeb3b 0%, #ffc107 30%, #ff8c00 60%, transparent 100%);
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+            top: -15px;
+            left: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 8px #ff4500, 0 0 15px #ffa07a, 0 0 20px rgba(255, 165, 0, 0.5);
+            animation: flicker 0.2s infinite alternate;
+            filter: drop-shadow(0 0 6px rgba(255, 165, 0, 0.9));
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.05); opacity: 0.85; }
+            100% { transform: scale(1); opacity: 0.95; }
+        }
+
+        .flame.off {
+            opacity: 0;
+            animation: none;
+            box-shadow: none;
+            filter: none;
+            cursor: default;
+        }
+
+        .wish-bubble {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fffafa, #ffe4e1);
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 105, 180, 0.2);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .wish-bubble p {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff1493;
+            margin-bottom: 5px;
+        }
+
+        .wish-bubble textarea {
+            width: calc(100% - 10px);
+            height: 80px;
+            padding: 10px;
+            border: 2px solid #ffc0cb;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 1em;
+            color: #555;
+            background-color: #fff;
+        }
+
+        .wish-bubble button {
+            padding: 12px 25px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .wish-bubble button:hover {
+            background-color: #ff1493;
+            transform: translateY(-2px);
+        }
+
+        .wish-bubble button:active {
+            transform: translateY(0);
+        }
+        
+        /* --- CSS cho Pháo Hoa --- */
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none; /* Không chặn click */
+            z-index: 190;
+            display: none; 
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: currentColor;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle-fade 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkle-fade {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="fireworks-container" id="fireworksContainer"></div>
+
+    <div class="title-overlay" id="titleOverlay">
+        <h1 id="titleText">HAPPY BIRTHDAY</h1>
+    </div>
+
+    <div class="cake-container" id="cakeContainer">
+        <div class="cake">
+            <div class="icing"></div>
+            <div class="decorations">
+                <div class="decoration-dot"></div>
+                <div class="decoration-dot"></div>
+                <div class="decoration-dot"></div>
+                <div class="decoration-dot"></div>
+                <div class="decoration-dot"></div>
+            </div>
+
+            <div class="candle candle-1" data-id="1">
+                <div class="flame" data-candle="1"></div>
+            </div>
+
+            <div class="candle candle-2" data-id="2">
+                <div class="flame" data-candle="2"></div>
+            </div>
+
+            <div class="candle candle-3" data-id="3">
+                <div class="flame" data-candle="3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wish-bubble" id="wishBubble">
+        <p>🎉 **Bạn có điều ước gì muốn gửi gắm?** 🎉</p>
+        <textarea id="wishTextarea" placeholder="Hãy ghi điều ước ngọt ngào của bạn vào đây nhé..."></textarea>
+        <button onclick="makeWish()">Thổi nến!</button>
+    </div>
+
+    <script>
+        
+        const FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf416P60jU70vj9jD_S60mG2cR3L6Hh1v-wz4mE9x7jS0RjA/formResponse'; 
+        const ENTRY_ID = 'entry.353386008'; 
+       
+
+
+        const cakeContainer = document.getElementById('cakeContainer');
+        const titleOverlay = document.getElementById('titleOverlay');
+        const titleText = document.getElementById('titleText');
+        const flames = document.querySelectorAll('.flame');
+        const wishBubble = document.getElementById('wishBubble');
+        const wishTextarea = document.getElementById('wishTextarea');
+        const fireworksContainer = document.getElementById('fireworksContainer'); // Lấy container pháo hoa
+        
+        let currentCandleFlame = null;
+        let candlesBlownOut = 0; // Biến đếm số nến đã tắt
+        let fireworkInterval = null;
+
+        const FIREWORK_COLORS = ['#ff00ff', '#00ffff', '#ffff00', '#ff4500', '#7fff00', '#ffffff'];
+        const NUM_SPARKLES_PER_FIREWORK = 5200; 
+
+
+       
+        function createFirework(x, y) {
+            const color = FIREWORK_COLORS[Math.floor(Math.random() * FIREWORK_COLORS.length)];
+
+            for (let i = 0; i < NUM_SPARKLES_PER_FIREWORK; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                sparkle.style.color = color;
+                
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 120 + 50; // Phạm vi nổ
+                const sparkleX = Math.cos(angle) * distance;
+                const sparkleY = Math.sin(angle) * distance;
+
+                sparkle.style.setProperty('--x', `${sparkleX}px`);
+                sparkle.style.setProperty('--y', `${sparkleY}px`);
+
+                fireworksContainer.appendChild(sparkle);
+
+                sparkle.addEventListener('animationend', () => {
+                    sparkle.remove();
+                });
+            }
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+           
+            setTimeout(() => {
+                titleOverlay.classList.add('hidden');
+            }, 7000); 
+
+            
+            setTimeout(() => {
+                cakeContainer.classList.add('visible');
+            }, 7000 + 1500); // Tổng cộng 8.5 giây sau khi tải trang
+        });
+
+
+       
+        function sendWishToGoogleForm(wishContent, candleId) {
+            const fullWish = `Nến ${candleId}: ${wishContent}`;
+            const data = new FormData();
+            
+            data.append(ENTRY_ID, fullWish);
+
+            fetch(FORM_ACTION_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: data
+            })
+            .then(() => {
+                console.log(`✅ Đã gửi điều ước từ nến ${candleId} thành công! Nội dung: ${fullWish}`);
+            })
+            .catch(error => {
+                console.error('Lỗi (nhưng thường là thành công):', error);
+                console.log(`✅ Điều ước đã được gửi (Kiểm tra Google Sheets của bạn). Nội dung: ${fullWish}`);
+            });
+        }
+
+        // Hàm xử lý sau khi người dùng nhấn "Thổi nến!" (Đã thêm kiểm tra endCelebration)
+        function makeWish() {
+            if (currentCandleFlame) {
+                const wishContent = wishTextarea.value.trim() || "(Không có nội dung điều ước)";
+                const candleId = currentCandleFlame.dataset.candle;
+
+                // 1. Gửi điều ước đi
+                sendWishToGoogleForm(wishContent, candleId);
+
+                // 2. Tắt nến và ẩn bong bóng
+                currentCandleFlame.classList.add('off');
+                wishBubble.style.display = 'none';
+
+                // 3. Tăng biến đếm
+                candlesBlownOut++;
+
+                // 4. Thông báo cho người dùng
+                let message = wishContent.includes("(Không có nội dung điều ước)") ? 
+                    `💨 Bạn đã thổi tắt nến ${candleId}! (${candlesBlownOut}/3) Hãy giữ bí mật điều ước của mình nhé!` :
+                    `✨ Bạn đã ước thành công! (${candlesBlownOut}/3) (Nến ${candleId} đã tắt)`;
+                
+                alert(message);
+                
+                // 5. Kiểm tra nếu tất cả 3 nến đã tắt
+                if (candlesBlownOut === 3) {
+                    endCelebration();
+                }
+
+                currentCandleFlame = null;
+            }
+        }
+        
+        
+         
+        function endCelebration() {
+            
+            cakeContainer.classList.remove('visible');
+            cakeContainer.style.opacity = '0'; 
+
+            
+            titleText.textContent = "HAPPY 22";
+
+           
+            titleOverlay.classList.remove('hidden');
+            titleOverlay.style.opacity = '1';
+
+            
+            fireworksContainer.style.display = 'block'; 
+            fireworkInterval = setInterval(() => {
+                
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                createFirework(x, y);
+            }, 300); 
+
+            
+            setTimeout(() => {
+                titleOverlay.classList.add('hidden');
+                clearInterval(fireworkInterval); 
+                
+                
+                setTimeout(() => {
+                    fireworksContainer.style.display = 'none';
+                }, 1500); 
+            }, 7000);
+        }
+
+        
+        flames.forEach(flame => {
+            flame.addEventListener('click', (event) => {
+                if (flame.classList.contains('off')) {
+                    return;
+                }
+                currentCandleFlame = flame;
+                wishTextarea.value = '';
+                wishBubble.style.display = 'flex';
+                wishTextarea.focus();
+                event.stopPropagation();
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && wishBubble.style.display === 'flex') {
+                wishBubble.style.display = 'none';
+                currentCandleFlame = null;
+            }
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (wishBubble.style.display === 'flex' && !wishBubble.contains(e.target) && !e.target.classList.contains('flame')) {
+                wishBubble.style.display = 'none';
+                currentCandleFlame = null;
+            }
+        });
+    </script>
+
+</body>
+</html>
